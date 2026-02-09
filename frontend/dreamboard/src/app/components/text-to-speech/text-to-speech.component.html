@@ -1,0 +1,42 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Text to Speech</mat-card-title>
+      <mat-card-subtitle>Generate audio from text</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="tts-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Text</mat-label>
+          <textarea
+            matInput
+            [(ngModel)]="text"
+            name="text"
+            rows="5"
+            placeholder="Enter text to convert to speech"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Voice</mat-label>
+          <mat-select [(ngModel)]="selectedVoice" name="voice">
+            @for (voice of voices; track voice.value) {
+            <mat-option [value]="voice.value">{{ voice.viewValue }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="generateSpeech()"
+        [disabled]="!text"
+      >
+        <mat-icon>record_voice_over</mat-icon>
+        Generate
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

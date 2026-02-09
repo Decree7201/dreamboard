@@ -35,6 +35,7 @@ import { StoriesListComponent } from '../stories-list/stories-list.component';
 import { BrainstormComponent } from '../brainstorm/brainstorm.component';
 import { SceneBuilderComponent } from '../scene-builder/scene-builder.component';
 import { PostVideoProductionComponent } from '../post-video-production/post-video-production.component';
+import { TextToSpeechComponent } from '../text-to-speech/text-to-speech.component';
 import { ComponentsCommunicationService } from '../../services/components-communication.service';
 
 @Component({
@@ -48,6 +49,7 @@ import { ComponentsCommunicationService } from '../../services/components-commun
     BrainstormComponent,
     SceneBuilderComponent,
     PostVideoProductionComponent,
+    TextToSpeechComponent,
   ],
   templateUrl: './storyboard.component.html',
   styleUrl: './storyboard.component.css',
