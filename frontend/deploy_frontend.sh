@@ -59,8 +59,14 @@ if ! [ -z "${1}" ]; then
 else
     GOOGLE_CLOUD_PROJECT="$(gcloud config get-value project)"
     BUCKET_NAME=$GOOGLE_CLOUD_PROJECT"-dreamboard"
-    SERVICE_ACCOUNT="dreamboard-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com"
-    LOCATION='us-central1'
+    read -p "Enter a service account name: (press enter to use default 'dreamboard-sa')" -r SERVICE_ACCOUNT
+    if [ -z "${SERVICE_ACCOUNT}" ]; then
+        SERVICE_ACCOUNT="dreamboard-sa@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com"
+    fi
+    read -p "Enter a location where you wish to deploy the frontend (press enter to use default us-central1) : " -r LOCATION
+    if [ -z "${LOCATION}" ]; then
+        LOCATION='us-central1'
+    fi
     read -p "Enter the backend Cloud Run service URL: " BACKEND_CLOUD_RUN_SERVICE_URL
     read -p "Enter the credentials Client ID: " CLIENT_ID
 fi

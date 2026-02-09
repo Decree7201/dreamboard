@@ -20,12 +20,12 @@
  ***************************************************************************/
 
 export const environment = {
-  production: false,
-  videoGenerationApiURL: 'http://127.0.0.1:8000/api/video_generation',
-  imageGenerationApiURL: 'http://127.0.0.1:8000/api/image_generation',
-  textGenerationApiURL: 'http://127.0.0.1:8000/api/text_generation',
-  fileUploaderApiURL: 'http://127.0.0.1:8000/api/file_uploader',
-  storiesStorageApiURL: 'http://127.0.0.1:8000/api/story_storage',
-  proxyURL: 'http://127.0.0.1:3000',
-  clientID: '',
+  production: true,
+  videoGenerationApiURL: 'https://dreamboard-backend-180911835097.us-central1.run.app/api/video_generation',
+  imageGenerationApiURL: 'https://dreamboard-backend-180911835097.us-central1.run.app/api/image_generation',
+  textGenerationApiURL: 'https://dreamboard-backend-180911835097.us-central1.run.app/api/text_generation',
+  fileUploaderApiURL: 'https://dreamboard-backend-180911835097.us-central1.run.app/api/file_uploader',
+  storiesStorageApiURL: 'https://dreamboard-backend-180911835097.us-central1.run.app/api/story_storage',
+  clientID: '180911835097-l59b6sfntp0jq2gec0n57kiuaeblg80b.apps.googleusercontent.com',
+  proxyURL: '', // proxy url is just api/handleRequest for Nodejs server in PROD
 };
