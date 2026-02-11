@@ -38,10 +38,15 @@ class VeoAPIService:
     """Initializes the VeoAPIService."""
     # Initialize the Generative AI client with project and location.
     print("OS Variable is: ", os.getenv("PROJECT_ID"))
+
+    location=os.getenv("LOCATION")
+    if location == "me-central1":
+      location = "us-central1"
+
     self.client = genai.Client(
         vertexai=True,
         project=os.getenv("PROJECT_ID"),
-        location=os.getenv("LOCATION"),
+        location=location,
         http_options=types.HttpOptions(
             headers={"User-Agent": settings.USER_AGENT}
         ),
