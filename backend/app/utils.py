@@ -612,3 +612,11 @@ def find_element_by_name(name: str, elements: list[any]):
         return element
 
     return None
+
+def get_audio_bucket_base_path(story_id: str):
+    """Constructs the base GCS bucket path for storing audio."""
+    return f"gs://{os.getenv('GCS_BUCKET')}/dreamboard/{story_id}/audio"
+
+def get_audio_bucket_folder_path(story_id: str):
+    """Gets the folder path for audio within the bucket."""
+    return f"dreamboard/{story_id}/audio"

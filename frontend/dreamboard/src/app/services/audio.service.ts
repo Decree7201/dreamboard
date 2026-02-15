@@ -27,4 +27,18 @@ export class AudioService {
       requestBody
     );
   }
+
+  listVoices(languageCode: string): Observable<any[]> {
+  const requestBody = {
+    url: `${this.apiUrl}/list_voices/${languageCode}`,
+    options: {
+      method: 'GET',
+    },
+  };
+  return this.http.post<any[]>(
+    `${this.PROXY_URL}/api/handleRequest`,
+    requestBody
+    );
+  }
 }
+

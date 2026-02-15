@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,7 +26,7 @@ import { AUDIO_MODELS, AudioSegmentGenerationOperation } from '../../models/audi
   templateUrl: './text-to-speech.component.html',
   styleUrls: ['./text-to-speech.component.scss']
 })
-export class TextToSpeechComponent {
+export class TextToSpeechComponent implements OnInit {
   models = AUDIO_MODELS;
   
   // Form fields
@@ -34,7 +34,7 @@ export class TextToSpeechComponent {
   text: string = '';
   styleInstruction: string = '';
   selectedLanguage: string = 'en-US';
-  selectedVoice: string = 'en-US-Chirp-HD-D';
+  selectedVoice: string = '';
 
   // State
   isLoading = false;
@@ -48,6 +48,9 @@ export class TextToSpeechComponent {
     { value: 'es-ES', label: 'Spanish (Spain)' },
     { value: 'fr-FR', label: 'French (France)' },
   ];
+
+  availableVoices: any[] = [];
+
 
   // Voice mappings
   chirpVoices = [
@@ -66,18 +69,46 @@ export class TextToSpeechComponent {
   ];
 
   get currentVoices() {
-    if (this.selectedModel.includes('chirp')) {
-      return this.chirpVoices;
-    }
-    return this.geminiVoices;
+    return this.availableVoices;
   }
 
-  constructor(private audioService: AudioService) {
-    this.updateVoiceSelection();
+  constructor(private audioService: AudioService) {}
+
+  ngOnInit() {
+    this.fetchVoices();
+  }
+
+  onLanguageChange() {
+    this.fetchVoices();
   }
 
   onModelChange() {
-    this.updateVoiceSelection();
+    this.fetchVoices();
+  }
+
+  fetchVoices() {
+    this.isLoading = true;
+    this.audioService.listVoices(this.selectedLanguage).subscribe({
+      next: (voices) => {
+        this.availableVoices = voices.map(v => ({
+          value: v.name,
+          label: `${v.name} (${v.ssml_gender})`
+        }));
+
+        // Automatically select the first voice if current selection is invalid
+        if (this.availableVoices.length > 0) {
+          const exists = this.availableVoices.find(v => v.value === this.selectedVoice);
+          if (!exists) {
+            this.selectedVoice = this.availableVoices[0].value;
+          }
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = "Failed to load available voices from the API.";
+      }
+    });
   }
 
   updateVoiceSelection() {

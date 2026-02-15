@@ -25,7 +25,7 @@ import uuid
 import utils
 from google.api_core.client_options import ClientOptions
 from google.api_core.exceptions import ResourceExhausted
-from google.cloud import texttospeech
+from google.cloud import texttospeech_v1beta1 as texttospeech
 from models.audio import audio_request_models
 from models.audio import audio_gen_models
 from services.storage_service import storage_service
@@ -40,6 +40,21 @@ class AudioAPIService:
     self.tts_client = texttospeech.TextToSpeechClient(
       client_options=ClientOptions(api_endpoint="texttospeech.googleapis.com")
     )
+
+  def list_available_voices(self, language_code: str = None):
+    """Lists the available voices from the Text-to-Speech API."""
+    # Performs the list voices request
+    response = self.tts_client.list_voices(language_code=language_code)
+
+    voices = []
+    for voice in response.voices:
+        # Each voice has a name, language codes, and ssml_gender
+        voices.append({
+            "name": voice.name,
+            "ssml_gender": voice.ssml_gender.name,
+            "language_codes": voice.language_codes
+        })
+    return voices
 
   def generate_audio(
       self,

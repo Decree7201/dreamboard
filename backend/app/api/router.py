@@ -29,6 +29,7 @@ from api.endpoints import (
     video_gen_routes,
     file_uploader_routes,
     story_routes,
+    audio_gen_routes,
 )
 
 load_dotenv()
@@ -52,6 +53,9 @@ api_router.include_router(
     file_uploader_routes.file_uploader_router, tags=["file_uploader_routes"]
 )
 api_router.include_router(story_routes.story_router, tags=["story_routes"])
+api_router.include_router(
+    audio_gen_routes.audio_gen_router, tags=["audio_gen_routes"]
+)
 
 # Agent Routes
 if os.getenv("USE_AGENTS"):
