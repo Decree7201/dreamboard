@@ -45,6 +45,7 @@ enable_services() {
     gcloud services enable servicecontrol.googleapis.com
     gcloud services enable iap.googleapis.com
     gcloud services enable firestore.googleapis.com
+    gcloud services enable texttospeech.googleapis.com
     echo
 }
 

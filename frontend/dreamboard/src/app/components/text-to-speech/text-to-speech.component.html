@@ -2,41 +2,62 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>Text to Speech</mat-card-title>
-      <mat-card-subtitle>Generate audio from text</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <form class="tts-form">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Text</mat-label>
-          <textarea
-            matInput
-            [(ngModel)]="text"
-            name="text"
-            rows="5"
-            placeholder="Enter text to convert to speech"
-          ></textarea>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Voice</mat-label>
-          <mat-select [(ngModel)]="selectedVoice" name="voice">
-            @for (voice of voices; track voice.value) {
-            <mat-option [value]="voice.value">{{ voice.viewValue }}</mat-option>
-            }
+      <div class="form-grid">
+        <mat-form-field appearance="fill">
+          <mat-label>Model</mat-label>
+          <mat-select [(ngModel)]="selectedModel" (selectionChange)="onModelChange()">
+            <mat-option *ngFor="let model of models" [value]="model.value">
+              {{ model.label }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Language</mat-label>
+          <mat-select [(ngModel)]="selectedLanguage">
+            <mat-option *ngFor="let lang of languages" [value]="lang.value">
+              {{ lang.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Voice</mat-label>
+          <mat-select [(ngModel)]="selectedVoice">
+            <mat-option *ngFor="let voice of currentVoices" [value]="voice.value">
+              {{ voice.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Style Instruction</mat-label>
+          <input matInput [(ngModel)]="styleInstruction" placeholder="e.g. Speak excitedly">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Text</mat-label>
+          <textarea matInput [(ngModel)]="text" rows="4" placeholder="Enter text to generate audio..."></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="generateAudio()" [disabled]="isLoading || !text">
+          <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+          <span *ngIf="!isLoading">Generate Audio</span>
+        </button>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="generatedAudioUri" class="result-section">
+        <h3>Generated Audio</h3>
+        <audio controls [src]="generatedAudioUri"></audio>
+      </div>
     </mat-card-content>
-    <mat-card-actions align="end">
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="generateSpeech()"
-        [disabled]="!text"
-      >
-        <mat-icon>record_voice_over</mat-icon>
-        Generate
-      </button>
-    </mat-card-actions>
   </mat-card>
 </div>
