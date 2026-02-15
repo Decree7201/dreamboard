@@ -5,7 +5,7 @@ from services.audio.audio_api_service import AudioAPIService
 import utils
 import logging
 
-audio_gen_router = APIRouter()
+audio_gen_router = APIRouter(prefix="/audio_generation")
 audio_api_service = AudioAPIService()
 
 @audio_gen_router.get("/list_voices/{language_code}")

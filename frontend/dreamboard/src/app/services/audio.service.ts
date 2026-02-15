@@ -9,7 +9,7 @@ import { AudioSegmentGenerationOperation, AudioGenerationResponse } from '../mod
 })
 export class AudioService {
   // Derive the base URL from an existing environment variable (e.g., textGenerationApiURL)
-  private apiUrl = environment.textGenerationApiURL;
+  private apiUrl = environment.audioGenerationApiURL;
   PROXY_URL = environment.proxyURL;
 
   constructor(private http: HttpClient) {}

@@ -24,6 +24,7 @@ export const environment = {
   videoGenerationApiURL: '{BACKEND_CLOUD_RUN_SERVICE_URL}/api/video_generation',
   imageGenerationApiURL: '{BACKEND_CLOUD_RUN_SERVICE_URL}/api/image_generation',
   textGenerationApiURL: '{BACKEND_CLOUD_RUN_SERVICE_URL}/api/text_generation',
+  audioGenerationApiURL: '{BACKEND_CLOUD_RUN_SERVICE_URL}/api/audio_generation',
   fileUploaderApiURL: '{BACKEND_CLOUD_RUN_SERVICE_URL}/api/file_uploader',
   storiesStorageApiURL: '{BACKEND_CLOUD_RUN_SERVICE_URL}/api/story_storage',
   clientID: '{CLIENT_ID}',
