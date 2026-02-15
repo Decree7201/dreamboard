@@ -20,20 +20,11 @@ const PORT = process.env.PORT || 3000;
 async function handleGetRequest(url, options) {
   const auth = new GoogleAuth();
   const client = await auth.getIdTokenClient(url);
-  let response;
-  if (options.data) {
-    response = await client.request({
-      method: options.method,
-      url: url,
-      data: options.data,
-    });
-  } else {
-    response = await client.fetch({
-      method: options.method,
-      url: url,
-    });
-  }
-  return response;
+  return await client.request({
+    method: options.method,
+    url: url,
+    data: options.data, // This will be undefined for GET, which is fine
+  });
 }
 
 // Serve Angular app
@@ -57,7 +48,7 @@ app.get("/health_check", (req, res) => {
 app.post("/api/handleRequest", async (req, res) => {
   try {
     const response = await handleGetRequest(req.body.url, req.body.options);
-    if (response && response.ok && response.data) {
+    if (response && response.status >= 200 && response.status < 300 && response.data) {
       if (typeof response.data === "string") {
         // For requests that only return string like rewrite prompts, text extraction, etc
         // response.data should be handled in the client

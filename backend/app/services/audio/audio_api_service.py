@@ -44,7 +44,7 @@ class AudioAPIService:
   def list_available_voices(self, language_code: str = None):
     """Lists the available voices from the Text-to-Speech API."""
     # Performs the list voices request
-    response = self.tts_client.list_voices(language_code=language_code)
+    response = self.tts_client.list_voices(request={"language_code": language_code})
 
     voices = []
     for voice in response.voices:
@@ -52,7 +52,7 @@ class AudioAPIService:
         voices.append({
             "name": voice.name,
             "ssml_gender": voice.ssml_gender.name,
-            "language_codes": voice.language_codes
+            "language_codes": list(voice.language_codes)
         })
     return voices
 
