@@ -20,10 +20,10 @@ def list_voices(language_code: str):
 def generate_audio(story_id: str, audio_segment: audio_request_models.AudioSegmentGenerationOperation):
     try:
         # Define the output directory in GCS
-        output_gcs_uri = utils.get_audio_bucket_base_path(story_id)
+        output_folder = utils.get_audio_bucket_folder_path(story_id)
         
         # Call the service to generate and upload audio
-        return audio_api_service.generate_audio(story_id, output_gcs_uri, audio_segment)
+        return audio_api_service.generate_audio(story_id, output_folder, audio_segment)
     except Exception as e:
         logging.error(f"DreamBoard - AUDIO_ROUTES: Error generating audio: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
