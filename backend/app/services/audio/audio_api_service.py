@@ -23,12 +23,14 @@ import logging
 import time
 import uuid
 import utils
+import json
 from google.api_core.client_options import ClientOptions
 from google.api_core.exceptions import ResourceExhausted
 from google.cloud import texttospeech_v1beta1 as texttospeech
 from models.audio import audio_request_models
 from models.audio import audio_gen_models
 from services.storage_service import storage_service
+from services.gemini_service import gemini_service
 
 
 class AudioAPIService:
@@ -85,7 +87,36 @@ class AudioAPIService:
     retries = 3
     for this_retry in range(retries):
       try:
-        synthesis_input = texttospeech.SynthesisInput(text=audio_segment.prompt)
+        if audio_segment.style_instruction:
+            ssml_prompt = (
+                f"Convert the following text into valid SSML for Google Cloud TTS. "
+                f"Use tags like <prosody> or <emphasis> to reflect this style: "
+                f"'{audio_segment.style_instruction}'. "
+                f"Text: '{audio_segment.text}'. "
+                f"Return only the SSML string starting with <speak>."
+            )
+            # Use Gemini to get the SSML content
+            # Note: Ensure your Gemini prompt requests raw text or JSON as per your service config
+            raw_response = gemini_service.execute_gemini(ssml_prompt)
+
+
+            try:
+                # GeminiService is hardcoded to return JSON, so we must parse it
+                clean_ssml = json.loads(raw_response)
+            except (json.JSONDecodeError, TypeError):
+                clean_ssml = raw_response
+            
+            # 2. Strip Markdown backticks and extra whitespace
+            clean_ssml = clean_ssml.replace("```xml", "").replace("```", "").strip()
+            
+            # 3. Final validation: Ensure it starts with <speak>
+            if not clean_ssml.startswith("<speak>"):
+                clean_ssml = f"<speak>{clean_ssml}</speak>"
+
+            synthesis_input = texttospeech.SynthesisInput(ssml=clean_ssml)
+
+        else:
+            synthesis_input = texttospeech.SynthesisInput(text=audio_segment.text)
 
         voice = texttospeech.VoiceSelectionParams(
             language_code=audio_segment.language_code,

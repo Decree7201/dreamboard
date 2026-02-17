@@ -33,6 +33,6 @@ class AudioSegmentGenerationOperation(BaseModel):
   @property
   def prompt(self) -> str:
     """Returns the prompt for the audio generation."""
-    if self.style_instruction:
-      return f"{self.style_instruction}. {self.text}"
+    # if self.style_instruction:
+    #   return f"{self.style_instruction}. {self.text}"
     return self.text
