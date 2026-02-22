@@ -47,6 +47,7 @@ export class TextToSpeechComponent implements OnInit {
     { value: 'en-GB', label: 'English (UK)' },
     { value: 'es-ES', label: 'Spanish (Spain)' },
     { value: 'fr-FR', label: 'French (France)' },
+    { value: 'ar-XA', label: 'Arabic' },
   ];
 
   availableVoices: any[] = [];

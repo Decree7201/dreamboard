@@ -6,15 +6,6 @@
     <mat-card-content>
       <div class="form-grid">
         <mat-form-field appearance="fill">
-          <mat-label>Model</mat-label>
-          <mat-select [(ngModel)]="selectedModel" (selectionChange)="onModelChange()">
-            <mat-option *ngFor="let model of models" [value]="model.value">
-              {{ model.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
           <mat-label>Language</mat-label>
           <mat-select [(ngModel)]="selectedLanguage" (selectionChange)="onLanguageChange()">
             <mat-option *ngFor="let lang of languages" [value]="lang.value">
@@ -30,11 +21,6 @@
               {{ voice.label }}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Style Instruction</mat-label>
-          <input matInput [(ngModel)]="styleInstruction" placeholder="e.g. Speak excitedly">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">
